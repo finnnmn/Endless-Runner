@@ -5,39 +5,68 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
-
+    /// <summary>
+    /// How fast the player moves forward
+    /// </summary>
     [Header("Stats")]
-    //how fast the player moves forward
     [SerializeField] float moveSpeed = 5;
-    //how fast the player moves sideways between lanes
+    /// <summary>
+    /// How fast the player moves between lanes
+    /// </summary>
     [SerializeField] float laneSwapSpeed = 10;
-    //jump parameters
+    /// <summary>
+    /// Force added to the player when they jump
+    /// </summary>
     [SerializeField] float jumpForce = 30;
+    /// <summary>
+    /// Strength of gravity; 30 jumpforce to 90 gravity works okay
+    /// </summary>
     [SerializeField] float gravity = 90;
 
+    /// <summary>
+    /// False when hitting an obstacle, determines whether the player has control
+    /// </summary>
     bool isAlive = true;
 
+    /// <summary>
+    /// Movement vector added to the character controller each frame
+    /// </summary>
     Vector3 movement;
 
+    /// <summary>
+    /// Reference to the main camera
+    /// </summary>
     [Header("Camera")]
     [SerializeField] GameObject followCamera;
-    //toggles whether camera moves on x and y axes
+    /// <summary>
+    /// When true, camera will follow the player on the x axis
+    /// </summary>
     [SerializeField] bool cameraFollowPlayerLanes;
+    /// <summary>
+    /// When true, camera will follow the player on the y axis
+    /// </summary>
     [SerializeField] bool cameraFollowPlayerJump;
+    /// <summary>
+    /// Stores the distance between camera and player, used for calculations
+    /// </summary>
     Vector3 cameraOffset;
 
-    //lane positions
+    /// <summary>
+    /// array of the x positions for each lane
+    /// </summary>
     float[] lanes;
+    /// <summary>
+    /// Lane the player is currently in
+    /// </summary>
     int currentLane;
-    //false while the player is still moving between lanes
+    /// <summary>
+    /// Set to false while the player is moving between lanes to stop inputs until the lane is reached
+    /// </summary>
     bool canMove = true;
-    //true while player is in the middle of a jump
-    bool inJump;
 
-    //reference to character controller
     CharacterController controller;
 
-    //For spawning platforms ahead of the player
+    //references to data from PlatformSpawner
     PlatformSpawner platformManager;
     float platformSize;
 
@@ -51,6 +80,7 @@ public class Player : MonoBehaviour
         currentLane = Mathf.FloorToInt(lanes.Length / 2);
         transform.position = new Vector3(lanes[currentLane], transform.position.y, transform.position.z);
 
+        //calculate camera offset
         cameraOffset = transform.position - followCamera.transform.position;
 
         //start spawning platforms
@@ -69,12 +99,15 @@ public class Player : MonoBehaviour
     }
 
     #region movement
+    /// <summary>
+    /// Moves the player and camera forward every frame and handles jump input
+    /// </summary>
     void MovePlayer()
     {
+        //allow jumping when on the ground, otherwise fall
         if (controller.isGrounded)
         {
             movement.y = 0;
-            inJump = false;
             PlayerJump();
         }
         else
@@ -82,20 +115,25 @@ public class Player : MonoBehaviour
             movement.y -= gravity * Time.deltaTime;
         }
 
+        //set player forward movement
         movement.z = moveSpeed;
 
+        //multiply by deltaTime and move
         Vector3 frameMovement = movement * Time.deltaTime;
         controller.Move(frameMovement);
 
+        //Get camera position
         Vector3 cameraPos = followCamera.transform.position;
 
+        //set camera to player x position if toggle is on
         if (cameraFollowPlayerLanes)
             cameraPos.x = transform.position.x - cameraOffset.x;
 
+        //set camera to player y position if toggle is on
         if (cameraFollowPlayerJump)
             cameraPos.y = transform.position.y - cameraOffset.y;
 
-
+        //move camera
         followCamera.transform.position = new Vector3(cameraPos.x, cameraPos.y, cameraPos.z + frameMovement.z);
        
 
@@ -103,18 +141,23 @@ public class Player : MonoBehaviour
     #endregion
 
     #region jump
+    /// <summary>
+    /// Jump when space key is pressed
+    /// </summary>
     void PlayerJump()
     {
         if (Input.GetKey(KeyCode.Space))
         {
             movement.y = jumpForce;
-            inJump = true;
         }
     }
     #endregion
 
     #region lane control
 
+    /// <summary>
+    /// Handles player input for moving left and right
+    /// </summary>
     void LaneInput()
     {
         float hInput = Input.GetAxisRaw("Horizontal");
@@ -124,24 +167,40 @@ public class Player : MonoBehaviour
             MoveLeft();
     }
 
+    /// <summary>
+    /// If not on leftmost lane, move player left
+    /// </summary>
     void MoveLeft()
     {
         if (currentLane > 0 && canMove)
         {
+            //decrease value of currentLane
             currentLane -= 1;
+            //move player left
             StartCoroutine(MoveToLane(lanes[currentLane], -1));
         }
     }
 
+    /// <summary>
+    /// if not on rightmost lane, move player right
+    /// </summary>
     void MoveRight()
     {
         if (currentLane < lanes.Length - 1 && canMove)
         {
+            //increase value of currentLane
             currentLane += 1;
+            //move player right
             StartCoroutine(MoveToLane(lanes[currentLane], 1));
         }
     }
 
+    /// <summary>
+    /// Moves player to the desired lane
+    /// </summary>
+    /// <param name="laneX"> The x position of the lane to move to</param>
+    /// <param name="direction">1 for moving right, -1 for moving left</param>
+    /// <returns></returns>
     IEnumerator MoveToLane(float laneX, float direction)
     {
         //stop player from moving until at position
@@ -162,7 +221,6 @@ public class Player : MonoBehaviour
             //move left until at wanted position
             while (transform.position.x > laneX)
             {
-
                 movement.x = -laneSwapSpeed;
                 yield return new WaitForEndOfFrame();
             }
@@ -177,14 +235,21 @@ public class Player : MonoBehaviour
     #endregion
 
     #region platform spawning
+    /// <summary>
+    /// Spawns a platform whenever the player reaches the correct position
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SpawnPlatforms()
     {
         int platformNumber = 1;
         while (isAlive)
         {
+            //if past the point to spawn a new platform
             if (transform.position.z > platformSize * platformNumber)
             {
+                //spawn a random platform
                 platformManager.SpawnRandomPlatform();
+                //set position needed for next platform
                 platformNumber++;
             }
             yield return new WaitForEndOfFrame();
@@ -196,12 +261,16 @@ public class Player : MonoBehaviour
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
+        //die when colliding with an obstacle
         if (hit.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
         {
             Death();
         }
     }
 
+    /// <summary>
+    /// Stops player input and ends the game
+    /// </summary>
     void Death()
     {
         isAlive = false;
