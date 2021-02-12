@@ -44,6 +44,10 @@ public class Game : MonoBehaviour
     /// </summary>
     [SerializeField] MenuHandler menuHandler;
     /// <summary>
+    /// reference to the scoreDisplay script in the scene
+    /// </summary>
+    [SerializeField] public ScoreDisplay scoreDisplay;
+    /// <summary>
     /// reference to the ui panel that comes up when the player dies
     /// </summary>
     [SerializeField] GameObject deathScreen;

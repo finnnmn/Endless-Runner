@@ -22,6 +22,10 @@ public class Player : MonoBehaviour
     /// Strength of gravity; 30 jumpforce to 90 gravity works okay
     /// </summary>
     [SerializeField] float gravity = 90;
+    /// <summary>
+    /// Amount to multiply by distance on z axis to get distance score
+    /// </summary>
+    [SerializeField] float distanceMultiplier = 0.1f;
 
     /// <summary>
     /// False when hitting an obstacle, determines whether the player has control
@@ -64,7 +68,13 @@ public class Player : MonoBehaviour
     /// </summary>
     bool canMove = true;
 
+    //Score values
+    float distance;
+    int collectibles;
+
+
     CharacterController controller;
+    ScoreDisplay scoreDisplay;
 
     //references to data from PlatformSpawner
     PlatformSpawner platformManager;
@@ -74,6 +84,7 @@ public class Player : MonoBehaviour
     {
         //reference to character controller
         controller = GetComponent<CharacterController>();
+        scoreDisplay = Game.instance.scoreDisplay;
 
         //set position and lane position
         lanes = Game.instance.lanes;
@@ -121,6 +132,9 @@ public class Player : MonoBehaviour
         //multiply by deltaTime and move
         Vector3 frameMovement = movement * Time.deltaTime;
         controller.Move(frameMovement);
+
+        distance += frameMovement.z * distanceMultiplier;
+        scoreDisplay.UpdateDistanceText(distance);
 
         //Get camera position
         Vector3 cameraPos = followCamera.transform.position;
@@ -257,7 +271,7 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region death
+    #region collisions
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -266,6 +280,19 @@ public class Player : MonoBehaviour
         {
             Death();
         }
+
+        //add to score when colliding with a collectible
+        else if (hit.gameObject.layer == LayerMask.NameToLayer("Collectible"))
+        {
+            Destroy(hit.gameObject);
+            PickUpCollectible();
+        }
+    }
+
+    void PickUpCollectible()
+    {
+        collectibles += 1;
+        scoreDisplay.UpdateCollectibleText(collectibles);
     }
 
     /// <summary>
