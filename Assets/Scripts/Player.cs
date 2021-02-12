@@ -160,7 +160,7 @@ public class Player : MonoBehaviour
     /// </summary>
     void PlayerJump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetAxisRaw("Jump") == 1)
         {
             movement.y = jumpForce;
         }
