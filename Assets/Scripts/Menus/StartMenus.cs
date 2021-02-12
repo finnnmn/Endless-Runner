@@ -25,5 +25,9 @@ namespace EndlessRunner.Menus
             #endregion
 
         }
+
+        #region canvas methods
+
+        #endregion
     }
 }
