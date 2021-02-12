@@ -76,11 +76,11 @@ public class Player : MonoBehaviour
 
     //Score values
     float distance;
-    int collectibles;
+    int buckets;
 
 
     CharacterController controller;
-    HUDDisplay scoreDisplay;
+    HUDDisplay hudDisplay;
 
     //references to data from PlatformSpawner
     PlatformSpawner platformManager;
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
     {
         //reference to character controller
         controller = GetComponent<CharacterController>();
-        scoreDisplay = Game.instance.hudDisplay;
+        hudDisplay = Game.instance.hudDisplay;
 
         //set position and lane position
         lanes = Game.instance.lanes;
@@ -143,7 +143,7 @@ public class Player : MonoBehaviour
         controller.Move(frameMovement);
 
         distance += frameMovement.z * distanceMultiplier;
-        scoreDisplay.UpdateDistanceText(distance);
+        hudDisplay.UpdateDistanceText(distance);
 
         //Get camera position
         Vector3 cameraPos = followCamera.transform.position;
@@ -328,17 +328,17 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Collectible"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Bucket"))
         {
             Destroy(other.gameObject);
-            PickUpCollectible();
+            PickUpBucket();
         }
     }
 
-    void PickUpCollectible()
+    void PickUpBucket()
     {
-        collectibles += 1;
-        scoreDisplay.UpdateCollectibleText(collectibles);
+        buckets += 1;
+        hudDisplay.UpdateBucketText(buckets);
     }
     #endregion
 
@@ -361,7 +361,7 @@ public class Player : MonoBehaviour
     void Death()
     {
         isAlive = false;
-        Game.instance.hudDisplay.PlayerDeath(distance, collectibles);
+        Game.instance.hudDisplay.PlayerDeath(distance, buckets);
     }
     #endregion
 

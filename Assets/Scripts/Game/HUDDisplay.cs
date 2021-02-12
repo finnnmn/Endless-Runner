@@ -7,7 +7,7 @@ public class HUDDisplay : MonoBehaviour
 {
     [Header("UI References")]
     public Text distanceText;
-    public Text collectibleText;
+    public Text bucketText;
     public Image mopChargeImage;
     [Header("Game Over Screen UI References")]
     [SerializeField] GameObject gameOverScreen;
@@ -18,9 +18,9 @@ public class HUDDisplay : MonoBehaviour
         distanceText.text = "Distance: " + Mathf.FloorToInt(_value);
     }
 
-    public void UpdateCollectibleText(float _value)
+    public void UpdateBucketText(float _value)
     {
-        collectibleText.text =  _value.ToString();
+        bucketText.text =  _value.ToString();
     }
 
     public void SetMopChargeImage(float _fillAmount)
@@ -28,10 +28,10 @@ public class HUDDisplay : MonoBehaviour
         mopChargeImage.fillAmount = _fillAmount;
     }
 
-    public void PlayerDeath(float _distance, float _collectibles)
+    public void PlayerDeath(float _distance, float _buckets)
     {
         gameOverScreen.SetActive(true);
-        gameOverstats.text = "Buckets collected: " + _collectibles + "\n\nDistance achieved: " + Mathf.FloorToInt(_distance) + "\n\nTop Speed: N/A";
+        gameOverstats.text = "Buckets collected: " + _buckets + "\n\nDistance achieved: " + Mathf.FloorToInt(_distance) + "\n\nTop Speed: N/A";
     }
    
 

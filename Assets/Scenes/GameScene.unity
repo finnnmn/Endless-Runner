@@ -624,7 +624,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceText: {fileID: 325734993}
-  collectibleText: {fileID: 67596076}
+  bucketText: {fileID: 67596076}
   mopChargeImage: {fileID: 325734992}
   gameOverScreen: {fileID: 325734994}
   gameOverstats: {fileID: 2058316801}
