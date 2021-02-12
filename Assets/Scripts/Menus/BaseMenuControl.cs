@@ -10,7 +10,7 @@ namespace EndlessRunner.Menus
     public class BaseMenuControl : MonoBehaviour
     {
         #region Variables
-        [SerializeField, Tooltip("Order the panels like this:" + "\n\nIn Game:\n" + "0-pause panel, 1-options panel" + "\n\nStart Menu:\n" + "0-press any key, 1-")]
+        [SerializeField, Tooltip("Order the panels like this:" + "\n\nIn Game:\n" + "0-pause panel, 1-options panel, exclude HUD" + "\n\nStart Menu:\n" + "0-press any key, 1-start panel, 2-options panel, 3-credits panel")]
         protected GameObject[] panelsInScene;
 
         [Header("Loading Objects")]

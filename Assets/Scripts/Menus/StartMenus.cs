@@ -27,7 +27,22 @@ namespace EndlessRunner.Menus
         }
 
         #region canvas methods
-
+        public void PlayGame()
+        {
+            LoadScene(1); //game scene has index 1
+        }
+        public void OpenSettings()
+        {
+            SwitchToPanel(2); //switch to options panel
+        }
+        public void OpenCredits()
+        {
+            SwitchToPanel(3); //switch to credits panel
+        }
+        public void BackButton()
+        {
+            SwitchToPanel(1); //switch to start menu
+        }
         #endregion
     }
 }

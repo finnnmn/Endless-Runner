@@ -5,13 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MenuScene.unity
     guid: b4342cf30d48d6e4fa7a341d2e228d5f
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameOverScene.unity
     guid: fa1a3934f3a5b844bb7157dfdfa6260e
+  - enabled: 1
+    path: Assets/Scenes/StephStartMenu.unity
+    guid: e7b0de17c4b04f0418a7acba035dca8f
+  - enabled: 1
+    path: Assets/Scenes/StephGamePlay.unity
+    guid: 29e573b311471e948a8eead607a98086
   m_configObjects: {}
