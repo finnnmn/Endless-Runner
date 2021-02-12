@@ -946,6 +946,8 @@ MonoBehaviour:
   jumpForce: 30
   gravity: 90
   distanceMultiplier: 0.2
+  mopRadius: 10
+  mopReload: 5
   followCamera: {fileID: 963194225}
   cameraFollowPlayerLanes: 0
   cameraFollowPlayerJump: 0

@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     /// </summary>
     [SerializeField] float distanceMultiplier = 0.1f;
 
+    [Header("Mop Attack")]
+    [SerializeField] float mopRadius = 5;
+    [SerializeField] float mopReload = 5;
+    bool mopLoaded = true;
+
     /// <summary>
     /// False when hitting an obstacle, determines whether the player has control
     /// </summary>
@@ -80,6 +85,7 @@ public class Player : MonoBehaviour
     PlatformSpawner platformManager;
     float platformSize;
 
+    #region start/update
     private void Start()
     {
         //reference to character controller
@@ -106,8 +112,10 @@ public class Player : MonoBehaviour
         {
             MovePlayer();
             LaneInput();
+            MopInput();
         }
     }
+    #endregion
 
     #region movement
     /// <summary>
@@ -160,7 +168,7 @@ public class Player : MonoBehaviour
     /// </summary>
     void PlayerJump()
     {
-        if (Input.GetAxisRaw("Jump") == 1)
+        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             movement.y = jumpForce;
         }
@@ -174,7 +182,12 @@ public class Player : MonoBehaviour
     /// </summary>
     void LaneInput()
     {
-        float hInput = Input.GetAxisRaw("Horizontal");
+        float hInput = 0;
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+            hInput += 1;
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+            hInput -= 1;
+
         if (hInput > 0) 
             MoveRight();
         else if (hInput < 0)
@@ -271,20 +284,47 @@ public class Player : MonoBehaviour
     }
     #endregion
 
-    #region collisions
+    #region mop
 
-    private void OnControllerColliderHit(ControllerColliderHit hit)
+    void MopInput()
     {
-        //die when colliding with an obstacle
-        if (hit.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            Death();
+            if (mopLoaded)
+            {
+                StartCoroutine(MopCoroutine());
+            }
         }
+    }
 
-        //add to score when colliding with a collectible
-        else if (hit.gameObject.layer == LayerMask.NameToLayer("Collectible"))
+    IEnumerator MopCoroutine()
+    {
+        mopLoaded = false;
+        MopAttack();
+        yield return new WaitForSeconds(mopReload);
+        mopLoaded = true;
+    }
+
+    void MopAttack()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, mopRadius);
+        foreach (Collider col in colliders)
         {
-            Destroy(hit.gameObject);
+            if (col.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            {
+                Destroy(col.gameObject);
+            }
+        }
+    }
+    #endregion
+
+    #region collectibles
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Collectible"))
+        {
+            Destroy(other.gameObject);
             PickUpCollectible();
         }
     }
@@ -294,6 +334,20 @@ public class Player : MonoBehaviour
         collectibles += 1;
         scoreDisplay.UpdateCollectibleText(collectibles);
     }
+    #endregion
+
+    #region death
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        //die when colliding with an obstacle
+        if (hit.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        {
+            Death();
+        }
+    }
+
+   
 
     /// <summary>
     /// Stops player input and ends the game
@@ -304,6 +358,8 @@ public class Player : MonoBehaviour
         Game.instance.PlayerDeath();
     }
     #endregion
+
+   
 
 
 
