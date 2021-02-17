@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using EndlessRunner.Menus;
 
 namespace EndlessRunner.Gameplay
 {
@@ -12,7 +13,7 @@ namespace EndlessRunner.Gameplay
         public Text bucketText;
         public Image mopChargeImage;
         [Header("Game Over Screen UI References")]
-        [SerializeField] GameObject gameOverScreen;
+        [SerializeField] GameMenus gameMenu;
         [SerializeField] Text gameOverstats;
 
         public void UpdateDistanceText(float _value)
@@ -32,7 +33,7 @@ namespace EndlessRunner.Gameplay
 
         public void PlayerDeath(float _distance, float _buckets)
         {
-            gameOverScreen.SetActive(true);
+            gameMenu.DeathDisplay();
             gameOverstats.text = "Buckets collected: " + _buckets + "\n\nDistance achieved: " + Mathf.FloorToInt(_distance) + "\n\nTop Speed: N/A";
         }
 
