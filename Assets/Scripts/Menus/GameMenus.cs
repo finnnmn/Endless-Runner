@@ -22,7 +22,7 @@ namespace EndlessRunner.Menus
         void Update()
         {
             #region show pause menu
-            if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+            if (!panelsInScene[2].activeSelf && (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape)))
             {
                 Pause(true);
                 SwitchToPanel(0); //pause panel
@@ -76,6 +76,11 @@ namespace EndlessRunner.Menus
         public void ReturnToMenu()
         {
             LoadScene(0); //menu scene has index 0
+        }
+        public void DeathDisplay()
+        {
+            SwitchToPanel(2); //death panel
+            Pause(true);
         }
         #endregion
     }
