@@ -33,15 +33,14 @@ namespace EndlessRunner.Gameplay
         [Header("Paramaters")]
         [SerializeField] public float[] lanes = new float[5];
 
-        /// <summary>
-        /// reference to the platformManager in the scene
-        /// </summary>
         [Header("References")]
         [SerializeField] public PlatformSpawner platformManager;
-        /// <summary>
-        /// reference to the scoreDisplay script in the scene
-        /// </summary>
         [SerializeField] public HUDDisplay hudDisplay;
+        [SerializeField] public DebuffData debuffData;
+        [SerializeField] public Transform debuffLocation;
+
+        [Header("Prefabs")]
+        [SerializeField] public GameObject debuffPrefab;
 
     }
 }

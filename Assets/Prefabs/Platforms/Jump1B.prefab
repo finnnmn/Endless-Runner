@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 904886678199121406}
   - component: {fileID: 904886678199121394}
   m_Layer: 8
-  m_Name: JumpC
+  m_Name: Jump1C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -376,6 +376,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 904886678199121393}
     m_Modifications:
+    - target: {fileID: -1411100239138866499, guid: 6a8ce9b62d35c144e9733a4560c4aeae,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1013797786074593665, guid: 6a8ce9b62d35c144e9733a4560c4aeae,
         type: 3}
       propertyPath: m_RootOrder

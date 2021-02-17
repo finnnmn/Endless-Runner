@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8140032581624991412}
   - component: {fileID: 6085770820547293022}
   - component: {fileID: 1059128791313801162}
+  - component: {fileID: 7196354716572985913}
   m_Layer: 5
   m_Name: Debuff Prefab Base
   m_TagString: Untagged
@@ -77,6 +78,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7196354716572985913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590517447823305722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f409d6db5f5ba9846a9710eb0817388a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debuffName: {fileID: 1818786393167907505}
+  debuffTimer: {fileID: 4344172395338096685}
 --- !u!1 &2056863041824373384
 GameObject:
   m_ObjectHideFlags: 0

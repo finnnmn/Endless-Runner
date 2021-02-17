@@ -12,9 +12,14 @@ namespace EndlessRunner.Gameplay
         public Text distanceText;
         public Text bucketText;
         public Image mopChargeImage;
+        [SerializeField] GameObject blindPanel;
         [Header("Game Over Screen UI References")]
         [SerializeField] GameMenus gameMenu;
-        [SerializeField] Text gameOverstats;
+
+        private void Start()
+        {
+            SetBlindPanelVisibility(false);
+        }
 
         public void UpdateDistanceText(float _value)
         {
@@ -31,10 +36,15 @@ namespace EndlessRunner.Gameplay
             mopChargeImage.fillAmount = _fillAmount;
         }
 
-        public void PlayerDeath(float _distance, float _buckets)
+        public void SetBlindPanelVisibility(bool _visible)
+        {
+            blindPanel.SetActive(_visible);
+        }
+
+        public void PlayerDeath()
         {
             gameMenu.DeathDisplay();
-            gameOverstats.text = "Buckets collected: " + _buckets + "\n\nDistance achieved: " + Mathf.FloorToInt(_distance) + "\n\nTop Speed: N/A";
+          
         }
 
     }

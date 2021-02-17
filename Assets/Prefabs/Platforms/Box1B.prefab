@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 904886678199121406}
   - component: {fileID: 904886678199121394}
   m_Layer: 8
-  m_Name: Box1C
+  m_Name: Box1B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -297,16 +297,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3816120178579106977, guid: 57839aca51393bb4baeeed02448ed228,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816120178579106977, guid: 57839aca51393bb4baeeed02448ed228,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.020000001
-      objectReference: {fileID: 0}
-    - target: {fileID: 3816120178579106977, guid: 57839aca51393bb4baeeed02448ed228,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -358,7 +348,7 @@ PrefabInstance:
     - target: {fileID: 8127502035692652250, guid: 57839aca51393bb4baeeed02448ed228,
         type: 3}
       propertyPath: m_Name
-      value: Collectable
+      value: Bucket
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57839aca51393bb4baeeed02448ed228, type: 3}

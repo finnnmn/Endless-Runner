@@ -9,10 +9,14 @@ namespace EndlessRunner.Gameplay
     public class Player : MonoBehaviour
     {
         /// <summary>
-        /// How fast the player moves forward
+        /// How fast the player moves forward while not debuffed
         /// </summary>
         [Header("Stats")]
-        [SerializeField] float moveSpeed = 5;
+        [SerializeField] float moveSpeed = 15;
+        /// <summary>
+        /// How fast the player moves forward (affected by debuffs)
+        /// </summary>
+        float currentSpeed;
         /// <summary>
         /// How fast the player moves between lanes
         /// </summary>
@@ -35,6 +39,12 @@ namespace EndlessRunner.Gameplay
         [SerializeField] float mopReload = 5;
         bool mopLoaded;
         float mopLoading;
+
+        [Header("Debuffs")]
+        [SerializeField] DebuffInfo slowDebuff;
+        [SerializeField] DebuffInfo speedDebuff;
+        [SerializeField] DebuffInfo blindDebuff;
+        
 
         /// <summary>
         /// False when hitting an obstacle, determines whether the player has control
@@ -102,6 +112,7 @@ namespace EndlessRunner.Gameplay
             lanes = Game.instance.lanes;
             currentLane = Mathf.FloorToInt(lanes.Length / 2);
             transform.position = new Vector3(lanes[currentLane], transform.position.y, transform.position.z);
+            currentSpeed = moveSpeed;
 
             //calculate camera offset
             cameraOffset = transform.position - followCamera.transform.position;
@@ -119,6 +130,7 @@ namespace EndlessRunner.Gameplay
                 MovePlayer();
                 LaneInput();
                 MopInput();
+                DebuffTimers();
             }
         }
         #endregion
@@ -141,7 +153,7 @@ namespace EndlessRunner.Gameplay
             }
 
             //set player forward movement
-            movement.z = moveSpeed;
+            movement.z = currentSpeed;
 
             //multiply by deltaTime and move
             Vector3 frameMovement = movement * Time.deltaTime;
@@ -321,7 +333,7 @@ namespace EndlessRunner.Gameplay
             Collider[] colliders = Physics.OverlapSphere(transform.position, mopRadius);
             foreach (Collider col in colliders)
             {
-                if (col.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+                if (col.gameObject.layer == LayerMask.NameToLayer("Obstacle") || col.gameObject.layer == LayerMask.NameToLayer("Debuff"))
                 {
                     Destroy(col.gameObject);
                 }
@@ -329,8 +341,7 @@ namespace EndlessRunner.Gameplay
         }
         #endregion
 
-        #region collectibles
-
+        #region collisions
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Bucket"))
@@ -338,13 +349,178 @@ namespace EndlessRunner.Gameplay
                 Destroy(other.gameObject);
                 PickUpBucket();
             }
+
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Debuff"))
+            {
+                ObjectDebuffType debuffType = other.GetComponent<Debuff>().GetDebuffType();
+                Destroy(other.gameObject);
+
+                switch (debuffType)
+                {
+                    case ObjectDebuffType.Slow:
+                        SetDebuff(slowDebuff);
+                        break;
+                    case ObjectDebuffType.Blind:
+                        SetDebuff(blindDebuff);
+                        break;
+                    case ObjectDebuffType.Speed:
+                        SetDebuff(speedDebuff);
+                        break;
+                }
+            }
         }
+        #endregion
+
+        #region collectibles
 
         void PickUpBucket()
         {
             buckets += 1;
             hudDisplay.UpdateBucketText(buckets);
         }
+        #endregion
+
+        #region debuffs
+
+        /// <summary>
+        /// Reduce the timers on each debuff every frame
+        /// </summary>
+        void DebuffTimers()
+        {
+            CalculateDebuffTimer(slowDebuff);
+            CalculateDebuffTimer(speedDebuff);
+            CalculateDebuffTimer(blindDebuff);
+        }
+
+        /// <summary>
+        /// Reduce the debuff timer if it is active
+        /// </summary>
+        /// <param name="debuff">The debuff to reduce the timer of</param>
+        void CalculateDebuffTimer(DebuffInfo debuff)
+        {
+            if (debuff.IsActive)
+            {
+                debuff.Timer -= Time.deltaTime;
+                UpdateDebuffUITimer(debuff.DebuffUI, debuff.Timer);
+                if (debuff.Timer <= 0)
+                {
+                    RemoveDebuff(debuff);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Add a marker on the screen to show the debuff
+        /// </summary>
+        /// <param name="_name">The text for the name of the debuff</param>
+        /// <param name="_time">The text for the time remaining of the debuff</param>
+        /// <returns>The debuff ui marker that can be edited</returns>
+        DebuffUI AddDebuffUI(string _name, float _time)
+        {
+            DebuffUI debuffUI = Instantiate(Game.instance.debuffPrefab, Game.instance.debuffLocation).GetComponent<DebuffUI>();
+            debuffUI.SetDebuffNameText(_name);
+            debuffUI.SetDebuffTimerText(_time);
+            return debuffUI;
+        }
+
+        /// <summary>
+        /// Updates the time text on a debuff ui marker
+        /// </summary>
+        /// <param name="_debuffUI">Which marker to edit</param>
+        /// <param name="_time">The new amount of time to set</param>
+        void UpdateDebuffUITimer(DebuffUI _debuffUI, float _time)
+        {
+            if (_debuffUI != null)
+                _debuffUI.SetDebuffTimerText(_time);
+        }
+
+        /// <summary>
+        /// Deletes a debuff ui marker from the screen
+        /// </summary>
+        /// <param name="_debuffUI">The marker to remove</param>
+        void RemoveDebuffUI(DebuffUI _debuffUI)
+        {
+            if (_debuffUI != null)
+                Destroy(_debuffUI.gameObject);
+        }
+
+
+        /// <summary>
+        /// Adds a debuff to the player and sets the time and ui. If it is already on the player, resets the timer
+        /// </summary>
+        /// <param name="_debuff">The debuff to set</param>
+        void SetDebuff(DebuffInfo _debuff)
+        {
+            if (!_debuff.IsActive)
+            {
+                _debuff.IsActive = true;
+                _debuff.Timer = _debuff.time;
+                _debuff.DebuffUI = AddDebuffUI(_debuff.name, _debuff.time);
+
+                ToggleDebuffEffect(_debuff, true);
+                
+            }
+            else
+            {
+                _debuff.Timer = _debuff.time;
+            }
+        }
+
+        /// <summary>
+        /// Removes a debuff from the player
+        /// </summary>
+        /// <param name="_debuff">The debuff to remove</param>
+        void RemoveDebuff(DebuffInfo _debuff)
+        {
+            _debuff.IsActive = false;
+            RemoveDebuffUI(_debuff.DebuffUI);
+
+            ToggleDebuffEffect(_debuff, false);
+
+        }
+
+        /// <summary>
+        /// Toggles something with the player depending on the type of debuff
+        /// </summary>
+        /// <param name="_debuff">The debuff effects to toggle</param>
+        /// <param name="_active">Whether the debuff is turning on or off</param>
+        void ToggleDebuffEffect(DebuffInfo _debuff, bool _active)
+        {
+            switch (_debuff.type)
+            {
+                case DebuffType.SpeedChange:
+                    ModifySpeed(_active, _debuff.value);
+                    break;
+                case DebuffType.Blind:
+                    SetBlindPanel(_active);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Change the player speed by a value
+        /// </summary>
+        /// <param name="_add">whether to add or subtract the speed modifier</param>
+        /// <param name="_speed">value of the speed modifier</param>
+        void ModifySpeed(bool _add, float _speed)
+        {
+            if (_add)
+            {
+                currentSpeed += _speed;
+            }
+            else
+            {
+                currentSpeed -= _speed;
+            }
+        }
+
+        /// <summary>
+        /// Shows the panel to cover the screen when the player is blinded
+        /// </summary>
+        /// <param name="_visible">Whether the panel is showing or hiding</param>
+        void SetBlindPanel(bool _visible) => Game.instance.hudDisplay.SetBlindPanelVisibility(_visible);
+        
+
         #endregion
 
         #region death
@@ -366,15 +542,11 @@ namespace EndlessRunner.Gameplay
         void Death()
         {
             isAlive = false;
-            //Game.instance.hudDisplay.PlayerDeath(distance, buckets);
+            Game.instance.hudDisplay.PlayerDeath();
             scoring.ScoreDisplay(distance, buckets);
         }
         #endregion
 
 
-
-
     }
-
-
 }
