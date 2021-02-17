@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EndlessRunner.Gameplay {
+namespace EndlessRunner.Gameplay
+{
 
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
@@ -83,6 +84,7 @@ namespace EndlessRunner.Gameplay {
 
         CharacterController controller;
         HUDDisplay hudDisplay;
+        Menus.Scoring scoring;
 
         //references to data from PlatformSpawner
         PlatformSpawner platformManager;
@@ -94,6 +96,7 @@ namespace EndlessRunner.Gameplay {
             //reference to character controller
             controller = GetComponent<CharacterController>();
             hudDisplay = Game.instance.hudDisplay;
+            scoring = FindObjectOfType<Menus.Scoring>();
 
             //set position and lane position
             lanes = Game.instance.lanes;
@@ -363,7 +366,8 @@ namespace EndlessRunner.Gameplay {
         void Death()
         {
             isAlive = false;
-            Game.instance.hudDisplay.PlayerDeath(distance, buckets);
+            //Game.instance.hudDisplay.PlayerDeath(distance, buckets);
+            scoring.ScoreDisplay(distance, buckets);
         }
         #endregion
 

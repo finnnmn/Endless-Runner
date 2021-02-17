@@ -66,7 +66,8 @@ namespace EndlessRunner.Menus
         #endregion
 
         #region loading
-        //load scene async with loading bar
+        //load scene async with loading bar later
+
         /// <summary>
         /// does not use loading screen yet
         /// </summary>
