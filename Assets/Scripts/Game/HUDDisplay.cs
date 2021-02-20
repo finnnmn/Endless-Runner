@@ -12,6 +12,7 @@ namespace EndlessRunner.Gameplay
         public Text distanceText;
         public Text bucketText;
         public Image mopChargeImage;
+        public Image rustBarImage;
         [SerializeField] GameObject blindPanel;
         [Header("Game Over Screen UI References")]
         [SerializeField] GameMenus gameMenu;
@@ -34,6 +35,11 @@ namespace EndlessRunner.Gameplay
         public void SetMopChargeImage(float _fillAmount)
         {
             mopChargeImage.fillAmount = _fillAmount;
+        }
+
+        public void SetRustBarImage(float _fillAmount)
+        {
+            rustBarImage.fillAmount = _fillAmount;
         }
 
         public void SetBlindPanelVisibility(bool _visible)

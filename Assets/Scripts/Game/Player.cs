@@ -11,8 +11,16 @@ namespace EndlessRunner.Gameplay
         /// <summary>
         /// How fast the player moves forward while not debuffed
         /// </summary>
-        [Header("Stats")]
+        [Header("Horizontal Movement")]
         [SerializeField] float moveSpeed = 15;
+        /// <summary>
+        /// How much speed is added with each ship
+        /// </summary>
+        [SerializeField] float speedIncreasePerShip = 1;
+        /// <summary>
+        /// How high the speed can get before it is no longer raised
+        /// </summary>
+        [SerializeField] float maxSpeed = 20;
         /// <summary>
         /// How fast the player moves forward (affected by debuffs)
         /// </summary>
@@ -21,6 +29,7 @@ namespace EndlessRunner.Gameplay
         /// How fast the player moves between lanes
         /// </summary>
         [SerializeField] float laneSwapSpeed = 10;
+        [Header("Vertical Movement")]
         /// <summary>
         /// Force added to the player when they jump
         /// </summary>
@@ -30,9 +39,22 @@ namespace EndlessRunner.Gameplay
         /// </summary>
         [SerializeField] float gravity = 90;
         /// <summary>
+        /// Player dies if below this y position
+        /// </summary>
+        [SerializeField] float deathY = -5;
+        [Header("Other Parameters")]
+        /// <summary>
         /// Amount to multiply by distance on z axis to get distance score
         /// </summary>
         [SerializeField] float distanceMultiplier = 0.1f;
+
+        /// <summary>
+        /// How fast the player moves between ships when doing a ship jump
+        /// </summary>
+        [SerializeField] float shipJumpSpeed = 30;
+        bool canShipJump;
+        bool inShipJump;
+        Vector3 aimPoint;
 
         [Header("Mop Attack")]
         [SerializeField] float mopRadius = 5;
@@ -40,12 +62,18 @@ namespace EndlessRunner.Gameplay
         bool mopLoaded;
         float mopLoading;
 
+        [Header("Rust")]
+        [SerializeField] float RustPerSecond = 5;
+        [SerializeField] float bucketRustRecovery;
+        [SerializeField] float maxRust = 200;
+        float rust;
+
         [Header("Debuffs")]
         [SerializeField] DebuffInfo slowDebuff;
         [SerializeField] DebuffInfo speedDebuff;
         [SerializeField] DebuffInfo blindDebuff;
-        
 
+       
         /// <summary>
         /// False when hitting an obstacle, determines whether the player has control
         /// </summary>
@@ -127,10 +155,19 @@ namespace EndlessRunner.Gameplay
         {
             if (isAlive)
             {
-                MovePlayer();
-                LaneInput();
+                if (!inShipJump)
+                {
+                    MovePlayer();
+                    LaneInput();
+                    Rust();
+                }
+                else
+                {
+                    ShipJump();
+                }
                 MopInput();
                 DebuffTimers();
+                CheckYDeath();
             }
         }
         #endregion
@@ -151,6 +188,8 @@ namespace EndlessRunner.Gameplay
             {
                 movement.y -= gravity * Time.deltaTime;
             }
+            if (inShipJump)
+                return;
 
             //set player forward movement
             movement.z = currentSpeed;
@@ -188,8 +227,16 @@ namespace EndlessRunner.Gameplay
         {
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
-                movement.y = jumpForce;
+                if (canShipJump)
+                {
+                    StartShipJump();
+                }
+                else
+                {
+                    movement.y = jumpForce;
+                }
             }
+                    
         }
         #endregion
 
@@ -306,16 +353,7 @@ namespace EndlessRunner.Gameplay
 
         void MopInput()
         {
-            if (mopLoaded)
-            {
-                if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-                {
-                    mopLoaded = false;
-                    mopLoading = 0;
-                    MopAttack();
-                }
-            }
-            else
+            if (!mopLoaded || inShipJump)
             {
                 mopLoading += Time.deltaTime;
                 Game.instance.hudDisplay.SetMopChargeImage(mopLoading / mopReload);
@@ -323,6 +361,15 @@ namespace EndlessRunner.Gameplay
                 if (mopLoading > mopReload)
                 {
                     mopLoaded = true;
+                }
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                {
+                    mopLoaded = false;
+                    mopLoading = 0;
+                    MopAttack();
                 }
             }
 
@@ -338,6 +385,27 @@ namespace EndlessRunner.Gameplay
                     Destroy(col.gameObject);
                 }
             }
+        }
+        #endregion
+
+        #region rust
+
+        void Rust()
+        {
+            rust += Time.deltaTime * RustPerSecond;
+            Game.instance.hudDisplay.SetRustBarImage(rust / maxRust);
+
+            if (rust >= maxRust)
+            {
+                Death();
+            }
+
+        }
+
+        void RecoverRust(float _amount)
+        {
+            rust = Mathf.Max(rust - _amount, 0);
+            Game.instance.hudDisplay.SetRustBarImage(rust / maxRust);
         }
         #endregion
 
@@ -368,6 +436,11 @@ namespace EndlessRunner.Gameplay
                         break;
                 }
             }
+
+            else if (other.gameObject.layer == LayerMask.NameToLayer("ShipJump"))
+            {
+                canShipJump = true;
+            }
         }
         #endregion
 
@@ -377,6 +450,7 @@ namespace EndlessRunner.Gameplay
         {
             buckets += 1;
             hudDisplay.UpdateBucketText(buckets);
+            RecoverRust(bucketRustRecovery);
         }
         #endregion
 
@@ -542,9 +616,70 @@ namespace EndlessRunner.Gameplay
         void Death()
         {
             isAlive = false;
+            followCamera.transform.SetParent(null);
             Game.instance.hudDisplay.PlayerDeath();
             scoring.ScoreDisplay(distance, buckets);
         }
+
+        /// <summary>
+        /// kills the player if they fall too low
+        /// </summary>
+        void CheckYDeath()
+        {
+            if (transform.position.y < deathY)
+            {
+                Death();
+            }
+        }
+        #endregion
+
+        #region Ship jump
+        /// <summary>
+        /// starts the jump between ships and sets where the player needs to land
+        /// </summary>
+        void StartShipJump()
+        {
+            canShipJump = false;
+            inShipJump = true;
+
+            aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 1.9f));
+
+            followCamera.transform.SetParent(transform);
+            
+
+        }
+        /// <summary>
+        /// handles each frame of jumping between ships
+        /// </summary>
+        void ShipJump()
+        {
+            float jumpY = Mathf.Abs(aimPoint.z - transform.position.z);
+            Vector3 aimPointJump = new Vector3(aimPoint.x, jumpY + 1f, aimPoint.z);
+
+            transform.position = Vector3.MoveTowards(transform.position, aimPointJump, shipJumpSpeed * Time.deltaTime);
+
+            distance += shipJumpSpeed * Time.deltaTime * distanceMultiplier;
+            hudDisplay.UpdateDistanceText(distance);
+
+
+            if (transform.position.z == aimPoint.z)
+            {
+                inShipJump = false;
+                RaiseSpeed();
+                followCamera.transform.SetParent(null);
+            }
+        }
+
+        void RaiseSpeed()
+        {
+            if (moveSpeed < maxSpeed)
+            {
+                currentSpeed += speedIncreasePerShip;
+            }
+        }
+
+        
+
         #endregion
 
 
