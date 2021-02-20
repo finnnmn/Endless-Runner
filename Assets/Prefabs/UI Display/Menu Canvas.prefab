@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4804112836172084167}
   - component: {fileID: 4804112836172084166}
   - component: {fileID: 4804112836172084170}
-  - component: {fileID: 4261541927787746123}
+  - component: {fileID: 1528392521613895059}
   m_Layer: 5
   m_Name: Menu Canvas
   m_TagString: Untagged
@@ -127,19 +127,14 @@ MonoBehaviour:
   loadingPanel: {fileID: 5850666731354299431}
   loadingText: {fileID: 6920125580678661388}
   loadingBarFill: {fileID: 7179277378173518236}
---- !u!114 &4261541927787746123
-MonoBehaviour:
+--- !u!81 &1528392521613895059
+AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4804112836172084161}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a5202670fc44d64e9f95bbb6019e7ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mixer: {fileID: 0}
 --- !u!114 &2612810064998877092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -800,7 +795,7 @@ PrefabInstance:
     - target: {fileID: 955663839772528893, guid: bea1ab37c04a42647870de719f990e9b,
         type: 3}
       propertyPath: m_MinValue
-      value: -80
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 955663839772528893, guid: bea1ab37c04a42647870de719f990e9b,
         type: 3}
@@ -845,7 +840,7 @@ PrefabInstance:
     - target: {fileID: 955663839828080627, guid: bea1ab37c04a42647870de719f990e9b,
         type: 3}
       propertyPath: m_MinValue
-      value: -80
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 955663839828080627, guid: bea1ab37c04a42647870de719f990e9b,
         type: 3}
