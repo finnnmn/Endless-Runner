@@ -9,16 +9,6 @@ namespace EndlessRunner.Menus
     {
         [SerializeField] private Text score, stats;
 
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
-
         public void ScoreDisplay(float _distance, int _buckets)
         {
             int far = Mathf.RoundToInt(_distance);

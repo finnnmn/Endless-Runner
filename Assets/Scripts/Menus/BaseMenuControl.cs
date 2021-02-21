@@ -19,17 +19,6 @@ namespace EndlessRunner.Menus
         [SerializeField] protected Image loadingBarFill;
         #endregion
 
-        void Start()
-        {
-
-        }
-
-
-        void Update()
-        {
-
-        }
-
         #region switch to panel
         /// <summary>
         /// Disable all panels, enable one panel based on passed index.
@@ -58,6 +47,7 @@ namespace EndlessRunner.Menus
         #region quit
         public void Quit()
         {
+            PlaySFX.instance.ClickSound();
 #if UNITY_EDITOR
             EditorApplication.ExitPlaymode();
 #endif
@@ -77,7 +67,5 @@ namespace EndlessRunner.Menus
             SceneManager.LoadScene(_index);
         }
         #endregion
-
-        
     }
 }

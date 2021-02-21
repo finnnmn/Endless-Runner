@@ -17,6 +17,7 @@ namespace EndlessRunner.Menus
         private bool soundReady = true, songsReady = true;
         [SerializeField] private int soundCount = 7, songsCount = 3;
 
+        #region Awake set instance
         private void Awake()
         {
             if (!instance)
@@ -33,16 +34,12 @@ namespace EndlessRunner.Menus
                 DontDestroyOnLoad(this);
             }
         }
+        #endregion
 
         void Start()
         {
             soundReady=CheckSounds(sounds, soundCount);
             songsReady= CheckSounds(songs, songsCount);
-        }
-
-        void Update()
-        {
-
         }
 
         #region check clip arrays are filled
@@ -103,7 +100,6 @@ namespace EndlessRunner.Menus
             {
                 return;
             }
-            //sourceSFX.clip = sounds[_index];
             sourceSFX.PlayOneShot(sounds[_index]);
         }
         public void BucketSound()

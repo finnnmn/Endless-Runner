@@ -57,25 +57,30 @@ namespace EndlessRunner.Menus
         #region canvas methods
         public void ResumeGame()
         {
+            PlaySFX.instance.ClickSound();
             SwitchToPanel(-1); //close panels
             Pause(false); //unpause
         }
         public void OpenSettings()
         {
+            PlaySFX.instance.ClickSound();
             SwitchToPanel(1); //options panel
             Pause(true); //make sure paused
         }
         public void BackButton()
         {
+            PlaySFX.instance.ClickSound();
             SwitchToPanel(0); //pause panel
             Pause(true); //make sure paused
         }
         public void RetryNow()
         {
+            PlaySFX.instance.ClickSound();
             LoadScene(1); //gameplay scene has index 1
         }
         public void ReturnToMenu()
         {
+            PlaySFX.instance.ClickSound();
             LoadScene(0); //menu scene has index 0
         }
         public void DeathDisplay()

@@ -61,6 +61,7 @@ namespace EndlessRunner.Menus
         /// </summary>
         public void MuteToggle(bool mute)
         {
+            PlaySFX.instance.ClickSound();
             if (mute)
             {
                 mixer.SetFloat("MasterVolume", -80);
@@ -71,6 +72,7 @@ namespace EndlessRunner.Menus
                 mixer.SetFloat("MasterVolume", 0);
                 PlayerPrefs.SetInt("master", 1);
             }
+            PlaySFX.instance.ClickSound();
         }
         #endregion
     }
