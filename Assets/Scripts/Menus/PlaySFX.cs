@@ -8,10 +8,14 @@ namespace EndlessRunner.Menus
     public class PlaySFX : MonoBehaviour
     {
         [SerializeField] private AudioMixer mixer;
-        [SerializeField] private AudioSource source;
-        [SerializeField, Tooltip("0-bucket\n1-good item\n2-bad item\n3-death\n4-click")] private AudioClip[] clips;
+        [SerializeField] private AudioSource sourceSFX, sourceMusic;
+        [SerializeField, Tooltip("0-bucket\n1-good item\n2-bad item\n3-death\n4-click\n5-jump\n6-mop")] private AudioClip[] sounds;
+        [SerializeField, Tooltip("0-menu\n1-game\n2-death")] private AudioClip[] songs;
 
         public static PlaySFX instance = null;
+
+        private bool soundReady = true, songsReady = true;
+        [SerializeField] private int soundCount = 7, songsCount = 3;
 
         private void Awake()
         {
@@ -32,27 +36,8 @@ namespace EndlessRunner.Menus
 
         void Start()
         {
-            #region check sounds are attached
-            int num = clips.Length;
-            if (num <= 0)
-            {
-                Debug.LogError("No sound effects attached.");
-            }
-            else if (num < 5)
-            {
-                Debug.LogError("Not enough sound effects attached.");
-            }
-            else
-            {
-                for (int i = 0; i < num; i++)
-                {
-                    if (!clips[0])
-                    {
-                        Debug.LogError("Sound is empty at index "+i.ToString());
-                    }
-                }
-            }
-            #endregion
+            soundReady=CheckSounds(sounds, soundCount);
+            songsReady= CheckSounds(songs, songsCount);
         }
 
         void Update()
@@ -60,30 +45,95 @@ namespace EndlessRunner.Menus
 
         }
 
-        public void CollectBucketSound()
+        #region check clip arrays are filled
+        /// <summary>
+        /// Checks a given array of clips to see if any are null, then returns true if array is filled out.
+        /// </summary>
+        /// <param name="_set">array of clips being tested for null</param>
+        /// <param name="_count">required length of array</param>
+        /// <returns>referenced true if array is filled out</returns>
+        private bool CheckSounds(AudioClip[] _set, int _count)
         {
-            source.clip = clips[0];
-            source.Play();
+            int num = _set.Length;
+            if (num <= 0)
+            {
+                Debug.LogError("No sound effects attached to " + _set.ToString());
+                return false;
+            }
+            else if (num < _count)
+            {
+                Debug.LogError("Not enough sound effects attached to " + _set.ToString());
+                return  false;
+            }
+            else
+            {
+                for (int i = 0; i < num; i++)
+                {
+                    if (!_set[i])
+                    {
+                        Debug.LogError("Sound is empty at index " + i.ToString());
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        #endregion
+
+        #region music methods
+        /// <summary>
+        /// Switch music track being played.
+        /// </summary>
+        /// <param name="_index">0-menu, 1-game, 2-death</param>
+        public void SwitchTrack(int _index)
+        {
+            if (!songsReady)
+            {
+                return;
+            }
+            sourceMusic.clip = songs[_index];
+            sourceMusic.Play();
+        }
+        #endregion
+
+        #region sfx methods
+        private void PlaySound(int _index)
+        {
+            if (!soundReady)
+            {
+                return;
+            }
+            sourceSFX.clip = sounds[_index];
+            sourceSFX.Play();
+        }
+        public void BucketSound()
+        {
+            PlaySound(0);
         }
         public void GoodItemSound()
         {
-            source.clip = clips[1];
-            source.Play();
+            PlaySound(1);
         }
         public void BadItemSound()
         {
-            source.clip = clips[2];
-            source.Play();
+            PlaySound(2);
         }
         public void DeathSound()
         {
-            source.clip = clips[3];
-            source.Play();
+            PlaySound(3);
         }
         public void ClickSound()
         {
-            source.clip = clips[4];
-            source.Play();
+            PlaySound(4);
         }
+        public void JumpSound()
+        {
+            PlaySound(5);
+        }
+        public void MopSound()
+        {
+            PlaySound(6);
+        }
+        #endregion
     }
 }

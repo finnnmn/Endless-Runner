@@ -10,6 +10,7 @@ namespace EndlessRunner.Menus
         void Start()
         {
             SwitchToPanel(0); //press any key panel
+            PlaySFX.instance.SwitchTrack(0); //play menu song
         }
 
         void Update()

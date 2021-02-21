@@ -17,6 +17,7 @@ namespace EndlessRunner.Menus
             headsUpDisplay.SetActive(true);
             SwitchToPanel(-1); //disable menu panels
             Pause(false); //run time
+            PlaySFX.instance.SwitchTrack(1);
         }
 
         void Update()
