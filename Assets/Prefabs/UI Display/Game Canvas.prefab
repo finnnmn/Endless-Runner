@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1772096290586199195}
   - component: {fileID: 1772096290586199194}
   - component: {fileID: 2423606640857151537}
-  - component: {fileID: 2103880159}
   - component: {fileID: 2103880160}
   m_Layer: 5
   m_Name: Game Canvas
@@ -128,103 +127,6 @@ MonoBehaviour:
   loadingText: {fileID: 5447504886100355174}
   loadingBarFill: {fileID: 5202150034912750838}
   headsUpDisplay: {fileID: 4409150125713792561}
---- !u!82 &2103880159
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772096290586199197}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -6176496151636105119, guid: 390037f1abab61747a47186d9044a9de,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4f326b9520b5e4247abb7e9c475d839e, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!81 &2103880160
 AudioListener:
   m_ObjectHideFlags: 0
@@ -383,6 +285,37 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4439592991849740327, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_Text
+      value: Rust
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439592991849740327, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439592991849740327, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439592991849740327, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439592991849740327, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4439592991966208457, guid: 094aec7f9ab654e478ff14330d2d315a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9b73b3a46c599e84088e2eaaebe09b19,
+        type: 3}
     - target: {fileID: 4439592992003850256, guid: 094aec7f9ab654e478ff14330d2d315a,
         type: 3}
       propertyPath: m_RootOrder
