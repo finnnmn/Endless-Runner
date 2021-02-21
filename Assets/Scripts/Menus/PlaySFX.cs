@@ -103,8 +103,8 @@ namespace EndlessRunner.Menus
             {
                 return;
             }
-            sourceSFX.clip = sounds[_index];
-            sourceSFX.Play();
+            //sourceSFX.clip = sounds[_index];
+            sourceSFX.PlayOneShot(sounds[_index]);
         }
         public void BucketSound()
         {
@@ -121,7 +121,7 @@ namespace EndlessRunner.Menus
         public void DeathSound()
         {
             PlaySound(3);
-            SwitchTrack(3);
+            SwitchTrack(2);
         }
         public void ClickSound()
         {
