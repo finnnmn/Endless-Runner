@@ -121,6 +121,7 @@ namespace EndlessRunner.Menus
         public void DeathSound()
         {
             PlaySound(3);
+            SwitchTrack(3);
         }
         public void ClickSound()
         {
