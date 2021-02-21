@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EndlessRunner.Menus;
 
 namespace EndlessRunner.Gameplay
 {
@@ -227,6 +228,7 @@ namespace EndlessRunner.Gameplay
         {
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
+                PlaySFX.instance.JumpSound();
                 if (canShipJump)
                 {
                     StartShipJump();
@@ -385,6 +387,7 @@ namespace EndlessRunner.Gameplay
                     Destroy(col.gameObject);
                 }
             }
+            PlaySFX.instance.MopSound();
         }
         #endregion
 
@@ -426,12 +429,15 @@ namespace EndlessRunner.Gameplay
                 switch (debuffType)
                 {
                     case ObjectDebuffType.Slow:
+                        PlaySFX.instance.BadItemSound();
                         SetDebuff(slowDebuff);
                         break;
                     case ObjectDebuffType.Blind:
+                        PlaySFX.instance.BadItemSound();
                         SetDebuff(blindDebuff);
                         break;
                     case ObjectDebuffType.Speed:
+                        PlaySFX.instance.GoodItemSound();
                         SetDebuff(speedDebuff);
                         break;
                 }
@@ -451,6 +457,7 @@ namespace EndlessRunner.Gameplay
             buckets += 1;
             hudDisplay.UpdateBucketText(buckets);
             RecoverRust(bucketRustRecovery);
+            PlaySFX.instance.BucketSound();
         }
         #endregion
 
@@ -615,6 +622,7 @@ namespace EndlessRunner.Gameplay
         /// </summary>
         void Death()
         {
+            PlaySFX.instance.DeathSound();
             isAlive = false;
             followCamera.transform.SetParent(null);
             Game.instance.hudDisplay.PlayerDeath();
@@ -642,7 +650,7 @@ namespace EndlessRunner.Gameplay
             canShipJump = false;
             inShipJump = true;
 
-            aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 1.9f));
+            aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 2));
 
             followCamera.transform.SetParent(transform);
             
