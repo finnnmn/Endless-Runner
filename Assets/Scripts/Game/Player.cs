@@ -650,7 +650,7 @@ namespace EndlessRunner.Gameplay
             canShipJump = false;
             inShipJump = true;
 
-            aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 2));
+            aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 1.75f));
 
             followCamera.transform.SetParent(transform);
             

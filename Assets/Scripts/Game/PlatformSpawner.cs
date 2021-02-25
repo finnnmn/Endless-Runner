@@ -36,7 +36,7 @@ namespace EndlessRunner.Gameplay
         /// <summary>
         /// How many platforms should be spawned at the start (this is also how many will be spawned at any one time throughout the game)
         /// </summary>
-        [SerializeField] [Min(2)] public int startingPlatforms = 3;
+        [SerializeField] [Min(2)] public int startingPlatforms = 4;
         /// <summary>
         /// list of all currently spawned platforms
         /// </summary>
@@ -44,6 +44,8 @@ namespace EndlessRunner.Gameplay
 
         [Header("Ship settings")]
         [SerializeField] [Min(3)] public const int shipLength = 10;
+
+        [SerializeField, Range(0,7)] public int startingPlatformNum = 0;
 
         /// <summary>
         /// Each new platform will have this incremented by 1
@@ -122,7 +124,7 @@ namespace EndlessRunner.Gameplay
             platformPos += platformSize;
 
             //if there are too many platforms destroy the back ones
-            if (currentPlatforms.Count > startingPlatforms + 1)
+            if (currentPlatforms.Count > startingPlatforms)
             {
                 //destroy the furthest back platform and remove it from the list
                 GameObject platformToBeExecuted = currentPlatforms[0];
@@ -136,6 +138,8 @@ namespace EndlessRunner.Gameplay
         /// </summary>
         void SpawnStartingPlatforms()
         {
+            //set how far to start on the first ship
+            platformNum = startingPlatformNum;
             //spawn an empty platform for the player to start on
             SpawnPlatform(emptyPlatform);
             //for each other starting platform pick a random one to spawn
