@@ -17,6 +17,29 @@ namespace EndlessRunner.Menus
         [SerializeField] protected GameObject loadingPanel;
         [SerializeField] protected Text loadingText;
         [SerializeField] protected Image loadingBarFill;
+
+        [Header("Sound Sliders")]
+        [SerializeField] protected Toggle muteToggle;
+        [SerializeField] protected Slider musicSlider, SFXSlider;
+        #endregion
+
+        #region sound sliders on start
+        /// <summary>
+        /// update slider ui on start
+        /// </summary>
+        /// <param name="_volume">set to this value</param>
+        /// <param name="_music">music or sfx</param>
+        public void SetSoundUI(float _volume,bool _music)
+        {
+            if (_music)
+            {
+                musicSlider.value = _volume;
+            }
+            else
+            {
+                SFXSlider.value = _volume;
+            }
+        }
         #endregion
 
         #region switch to panel

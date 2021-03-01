@@ -10,20 +10,27 @@ namespace EndlessRunner.Menus
     {
         [SerializeField, Tooltip("Connect AudioMixer here.")] private AudioMixer mixer;
 
+        private BaseMenuControl activeMenu;
         #region Start
         /// <summary>
         /// Load prior sound settings if applicable.
         /// </summary>
         private void Start()
         {
+            activeMenu = FindObjectOfType<BaseMenuControl>();
+
             //if music has been saved previously, load those settings
             if (PlayerPrefs.HasKey("music"))
             {
-                SetMusicVolume(PlayerPrefs.GetFloat("music"));
+                float volume = PlayerPrefs.GetFloat("music");
+                SetMusicVolume(volume);
+                activeMenu.SetSoundUI(volume,true);
             }
             if (PlayerPrefs.HasKey("sfx"))
             {
-                SetSFXVolume(PlayerPrefs.GetFloat("sfx"));
+                float volume = PlayerPrefs.GetFloat("sfx");
+                SetSFXVolume(volume);
+                activeMenu.SetSoundUI(volume, false);
             }
             if (PlayerPrefs.HasKey("master"))
             {
