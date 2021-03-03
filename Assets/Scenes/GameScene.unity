@@ -972,7 +972,7 @@ MonoBehaviour:
   speedDebuff:
     name: Speed
     type: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 3b7e951c28bb6c344b1dac8997fc3401, type: 3}
     time: 10
     value: 10
   blindDebuff:
