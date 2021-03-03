@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3309e05aead998949865fc1a249a9b11, type: 3}
+  m_Name: Ship1Platforms
+  m_EditorClassIdentifier: 
+  platformsToAdd:
+  - {fileID: 5572270234123957805, guid: 8febd5b18128be44c8d6e1d03e48cbc9, type: 3}
+  - {fileID: 5572270234123957805, guid: bc1360e8c6bf60a488a90f412eadb9c0, type: 3}
+  - {fileID: 5572270234123957805, guid: 23279a9fb579a2d4295f24ba35e74a98, type: 3}
+  - {fileID: 5572270234123957805, guid: f137445e69af9d14881e1c303d574514, type: 3}
+  - {fileID: 5572270234123957805, guid: 260cbd842b5772743b048536ed33efad, type: 3}
+  platformsToRemove:
+  - {fileID: 5572270234123957805, guid: 13d2ad17962e92d4bbaf0f77f1ae7344, type: 3}
+  - {fileID: 5572270234123957805, guid: 8d994ebf34848bf4e80a62e78d604ccf, type: 3}
+  - {fileID: 5572270234123957805, guid: d7e7fb06066000b41a3256842c5ca551, type: 3}

@@ -8,17 +8,11 @@ namespace EndlessRunner.Gameplay
     public class PlatformSpawner : MonoBehaviour
     {
 
-        [System.Serializable]
-        struct Platforms 
-        {
-            public GameObject[] platformsToAdd;
-            public GameObject[] platformsToRemove;
-        }
         /// <summary>
         /// array of every possible platform that can be spawned
         /// </summary>
         [Header("Platform Array (Each new array will be added with each ship)")]
-        [SerializeField] Platforms[] platforms;
+        [SerializeField] ShipPlatforms[] platforms;
         [SerializeField] GameObject emptyPlatform;
         [SerializeField] GameObject shipStartPlatform;
         [SerializeField] GameObject shipEndPlatform;
