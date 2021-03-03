@@ -966,7 +966,7 @@ MonoBehaviour:
   slowDebuff:
     name: Slow
     type: 0
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: dc9e183ed2bb9404089a919d4c41b3a0, type: 3}
     time: 5
     value: -10
   speedDebuff:
