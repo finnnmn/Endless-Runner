@@ -847,6 +847,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc0f7101a15531245b0a9ef6b7287a19, type: 2}
   - {fileID: 11400000, guid: 742c0ea08d5b4d04f8f9a877b1e9b322, type: 2}
   - {fileID: 11400000, guid: 9e54d0311d4536b468cb993617762da1, type: 2}
+  - {fileID: 11400000, guid: da4d406358cacc344b4c170dea4ab2eb, type: 2}
   emptyPlatform: {fileID: 2820589091314105970, guid: 19c2e12884398584e83fa26feec3f8e9,
     type: 3}
   shipStartPlatform: {fileID: 2820589091314105970, guid: 3b8e206a20c4dbd4cb838c6eb0a6407b,

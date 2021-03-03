@@ -303,7 +303,7 @@ namespace EndlessRunner.Gameplay
             if (direction > 0)
             {
                 //move right until at wanted position
-                while (transform.position.x < laneX)
+                while (transform.position.x <= laneX)
                 {
                     movement.x = laneSwapSpeed;
                     yield return new WaitForEndOfFrame();
@@ -313,7 +313,7 @@ namespace EndlessRunner.Gameplay
             //moving left
             {
                 //move left until at wanted position
-                while (transform.position.x > laneX)
+                while (transform.position.x >= laneX)
                 {
                     movement.x = -laneSwapSpeed;
                     yield return new WaitForEndOfFrame();

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3309e05aead998949865fc1a249a9b11, type: 3}
+  m_Name: Ship6Platforms
+  m_EditorClassIdentifier: 
+  platformsToAdd:
+  - {fileID: 5572270234123957805, guid: f7f11ffe7e9a07f4c967c0c76e80c2a1, type: 3}
+  platformsToRemove:
+  - {fileID: 5572270234123957805, guid: bc1360e8c6bf60a488a90f412eadb9c0, type: 3}
+  - {fileID: 5572270234123957805, guid: 23279a9fb579a2d4295f24ba35e74a98, type: 3}
