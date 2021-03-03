@@ -20,10 +20,6 @@ public enum DebuffType
 
 namespace EndlessRunner.Gameplay
 {
-    /// <summary>
-    /// For information on debuffs e.g. colours
-    /// Will probably be redone with models
-    /// </summary>
     public class DebuffData : MonoBehaviour
     {
         [Header("Debuff Data")]
