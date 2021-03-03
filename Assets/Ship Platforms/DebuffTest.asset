@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3309e05aead998949865fc1a249a9b11, type: 3}
+  m_Name: DebuffTest
+  m_EditorClassIdentifier: 
+  platformsToAdd:
+  - {fileID: 5572270234123957805, guid: 6af77a9f534fcbc4da168b9675411c92, type: 3}
+  platformsToRemove: []

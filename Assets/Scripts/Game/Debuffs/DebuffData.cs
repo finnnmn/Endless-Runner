@@ -39,6 +39,8 @@ namespace EndlessRunner.Gameplay
         public string name;
         [Header("What the debuff does")]
         public DebuffType type;
+        [Header("Sprite icon for the debuff")]
+        public Sprite icon;
         [Header("How long the debuff lasts")]
         public float time;
         [Header("Speed change amount (Ignored on other debuffs)")]
