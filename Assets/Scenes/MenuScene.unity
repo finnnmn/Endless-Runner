@@ -779,5 +779,37 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6950592849368336717, guid: efdd50e02f0f6df418e093565a806420,
+        type: 3}
+      propertyPath: m_Text
+      value: '
+
+        
+
+        You are a robot janitor.
+
+        
+
+        Someone
+        stole your <color=yellow>golden buckets</color> and scattered them all over
+        the airships you <i>just</i> cleaned. They''ve also committed the most horrendous
+        crime of <b>littering</b>.
+
+        
+
+        <color=black>Poopy black
+        buckets</color> will obscure your vision lenses.
+
+        <color=blue>Slippery
+        blue buckets</color> will send you careening at high speeds.
+
+        <color=purple>Gooey
+        porple buckets</color> will slow you down.
+
+        
+
+        You must
+        collect and avoid buckets to get as far as you can before you rust.'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efdd50e02f0f6df418e093565a806420, type: 3}
