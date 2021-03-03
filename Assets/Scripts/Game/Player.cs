@@ -496,10 +496,12 @@ namespace EndlessRunner.Gameplay
         /// <param name="_name">The text for the name of the debuff</param>
         /// <param name="_time">The text for the time remaining of the debuff</param>
         /// <returns>The debuff ui marker that can be edited</returns>
-        DebuffUI AddDebuffUI(string _name, float _time)
+        DebuffUI AddDebuffUI(string _name, Sprite _icon, float _time)
         {
             DebuffUI debuffUI = Instantiate(Game.instance.debuffPrefab, Game.instance.debuffLocation).GetComponent<DebuffUI>();
             debuffUI.SetDebuffNameText(_name);
+            if (_icon)
+                debuffUI.SetDebuffIcon(_icon);
             debuffUI.SetDebuffTimerText(_time);
             return debuffUI;
         }
@@ -536,7 +538,7 @@ namespace EndlessRunner.Gameplay
             {
                 _debuff.IsActive = true;
                 _debuff.Timer = _debuff.time;
-                _debuff.DebuffUI = AddDebuffUI(_debuff.name, _debuff.time);
+                _debuff.DebuffUI = AddDebuffUI(_debuff.name, _debuff.icon, _debuff.time);
 
                 ToggleDebuffEffect(_debuff, true);
                 
