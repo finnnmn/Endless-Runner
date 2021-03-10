@@ -614,10 +614,6 @@ namespace EndlessRunner.Gameplay
 
         #region death
 
-        private void OnControllerColliderHit(ControllerColliderHit hit)
-        {
-            
-        }
 
 
 
