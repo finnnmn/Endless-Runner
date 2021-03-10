@@ -415,7 +415,13 @@ namespace EndlessRunner.Gameplay
         #region collisions
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer == LayerMask.NameToLayer("Bucket"))
+            //die when colliding with an obstacle
+            if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            {
+                Death();
+            }
+
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Bucket"))
             {
                 Destroy(other.gameObject);
                 PickUpBucket();
@@ -610,11 +616,7 @@ namespace EndlessRunner.Gameplay
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            //die when colliding with an obstacle
-            if (hit.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
-            {
-                Death();
-            }
+            
         }
 
 
