@@ -384,7 +384,8 @@ namespace EndlessRunner.Gameplay
             {
                 if (col.gameObject.layer == LayerMask.NameToLayer("Obstacle") || col.gameObject.layer == LayerMask.NameToLayer("Debuff"))
                 {
-                    Destroy(col.gameObject);
+                    if (!col.gameObject.CompareTag("ShipEnd"))
+                        Destroy(col.gameObject);
                 }
             }
             PlaySFX.instance.MopSound();
@@ -613,9 +614,6 @@ namespace EndlessRunner.Gameplay
         #endregion
 
         #region death
-
-
-
 
         /// <summary>
         /// Stops player input and ends the game
