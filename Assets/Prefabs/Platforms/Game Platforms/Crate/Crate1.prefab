@@ -79,7 +79,7 @@ PrefabInstance:
     - target: {fileID: 2820589091314105970, guid: 19c2e12884398584e83fa26feec3f8e9,
         type: 3}
       propertyPath: m_Name
-      value: Crate1B
+      value: Crate1
       objectReference: {fileID: 0}
     - target: {fileID: 2820589091314105971, guid: 19c2e12884398584e83fa26feec3f8e9,
         type: 3}
