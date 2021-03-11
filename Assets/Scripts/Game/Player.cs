@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using EndlessRunner.Menus;
+
 
 namespace EndlessRunner.Gameplay
 {
@@ -60,6 +62,7 @@ namespace EndlessRunner.Gameplay
         [Header("Mop Attack")]
         [SerializeField] float mopRadius = 5;
         [SerializeField] float mopReload = 5;
+        [SerializeField] float mopAttackDelay = 0.2f;
         bool mopLoaded;
         float mopLoading;
 
@@ -115,13 +118,18 @@ namespace EndlessRunner.Gameplay
         /// Set to false while the player is moving between lanes to stop inputs until the lane is reached
         /// </summary>
         bool canMove = true;
+        /// <summary>
+        /// true while the player is jumping
+        /// </summary>
+        bool inJump = false;
 
         //Score values
         float distance;
         int buckets;
 
-
         CharacterController controller;
+        Animator animator;
+
         HUDDisplay hudDisplay;
         Menus.Scoring scoring;
 
@@ -132,10 +140,10 @@ namespace EndlessRunner.Gameplay
         #region start/update
         private void Start()
         {
-            //reference to character controller
             controller = GetComponent<CharacterController>();
+            animator = GetComponentInChildren<Animator>();
             hudDisplay = Game.instance.hudDisplay;
-            scoring = FindObjectOfType<Menus.Scoring>();
+            scoring = FindObjectOfType<Scoring>();
 
             //set position and lane position
             lanes = Game.instance.lanes;
@@ -150,6 +158,9 @@ namespace EndlessRunner.Gameplay
             platformManager = Game.instance.platformManager;
             platformSize = platformManager.platformSize;
             StartCoroutine(SpawnPlatforms());
+
+            //set mop to loaded
+            mopLoading = mopReload;
         }
 
         private void Update()
@@ -182,6 +193,11 @@ namespace EndlessRunner.Gameplay
             //allow jumping when on the ground, otherwise fall
             if (controller.isGrounded)
             {
+                if(inJump)
+                {
+                    inJump = false;
+                    animator.SetTrigger("Land");
+                }
                 movement.y = 0;
                 PlayerJump();
             }
@@ -229,6 +245,10 @@ namespace EndlessRunner.Gameplay
             if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
             {
                 PlaySFX.instance.JumpSound();
+                inJump = true;
+                animator.SetTrigger("Jump");
+                animator.ResetTrigger("Land");
+
                 if (canShipJump)
                 {
                     StartShipJump();
@@ -371,14 +391,17 @@ namespace EndlessRunner.Gameplay
                 {
                     mopLoaded = false;
                     mopLoading = 0;
-                    MopAttack();
+                    StartCoroutine(MopAttack());
                 }
             }
 
         }
 
-        void MopAttack()
+        IEnumerator MopAttack()
         {
+            animator.SetTrigger("Mop");
+            PlaySFX.instance.MopSound();
+            yield return new WaitForSeconds(mopAttackDelay);
             Collider[] colliders = Physics.OverlapSphere(transform.position, mopRadius);
             foreach (Collider col in colliders)
             {
@@ -388,7 +411,6 @@ namespace EndlessRunner.Gameplay
                         Destroy(col.gameObject);
                 }
             }
-            PlaySFX.instance.MopSound();
         }
         #endregion
 
@@ -401,7 +423,7 @@ namespace EndlessRunner.Gameplay
 
             if (rust >= maxRust)
             {
-                Death();
+                Death(true);
             }
 
         }
@@ -419,7 +441,7 @@ namespace EndlessRunner.Gameplay
             //die when colliding with an obstacle
             if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
             {
-                Death();
+                Death(true);
             }
 
             else if (other.gameObject.layer == LayerMask.NameToLayer("Bucket"))
@@ -618,13 +640,23 @@ namespace EndlessRunner.Gameplay
         /// <summary>
         /// Stops player input and ends the game
         /// </summary>
-        void Death()
+        void Death(bool _playAnimation)
         {
             PlaySFX.instance.DeathSound();
             isAlive = false;
             followCamera.transform.SetParent(null);
             Game.instance.hudDisplay.PlayerDeath();
             scoring.ScoreDisplay(distance, buckets);
+
+            if (_playAnimation)
+            {
+                animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+                animator.SetTrigger("Death");
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -634,7 +666,7 @@ namespace EndlessRunner.Gameplay
         {
             if (transform.position.y < deathY)
             {
-                Death();
+                Death(false);
             }
         }
         #endregion
@@ -684,10 +716,9 @@ namespace EndlessRunner.Gameplay
             }
         }
 
-        
+
 
         #endregion
-
 
     }
 }
