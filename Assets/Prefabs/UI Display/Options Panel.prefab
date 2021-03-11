@@ -1002,7 +1002,19 @@ MonoBehaviour:
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4682096205537911303}
+        m_TargetAssemblyTypeName: EndlessRunner.Menus.OptionsMenu, Assembly-CSharp
+        m_MethodName: MuteToggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_IsOn: 0
 --- !u!1 &955663839431495735
 GameObject:
@@ -1096,9 +1108,9 @@ MonoBehaviour:
     Spacebar or up arrow key
 
 
-    Special Action
+    Mop Attack
 
-    Enter
+    S, Enter
     or down arrow key'
 --- !u!1 &955663839655976684
 GameObject:
@@ -1147,6 +1159,7 @@ GameObject:
   - component: {fileID: 955663839724458994}
   - component: {fileID: 955663839724458956}
   - component: {fileID: 955663839724458957}
+  - component: {fileID: 4682096205537911303}
   m_Layer: 5
   m_Name: Options Panel
   m_TagString: Untagged
@@ -1217,6 +1230,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4682096205537911303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955663839724458995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5202670fc44d64e9f95bbb6019e7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 24100000, guid: 390037f1abab61747a47186d9044a9de, type: 2}
 --- !u!1 &955663839748369243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1412,13 +1438,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 955663839237928326}
   m_HandleRect: {fileID: 955663838651586033}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -20
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4682096205537911303}
+        m_TargetAssemblyTypeName: EndlessRunner.Menus.OptionsMenu, Assembly-CSharp
+        m_MethodName: SetSFXVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &955663839828080625
 GameObject:
   m_ObjectHideFlags: 0
@@ -1503,13 +1541,25 @@ MonoBehaviour:
   m_FillRect: {fileID: 955663838372895702}
   m_HandleRect: {fileID: 955663839884890357}
   m_Direction: 0
-  m_MinValue: 0
-  m_MaxValue: 1
+  m_MinValue: -20
+  m_MaxValue: 0
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4682096205537911303}
+        m_TargetAssemblyTypeName: EndlessRunner.Menus.OptionsMenu, Assembly-CSharp
+        m_MethodName: SetMusicVolume
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &955663839884890362
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,4 +1755,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 955663839950681960}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: EndlessRunner.Menus.GameMenus, Assembly-CSharp
+        m_MethodName: BackButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
