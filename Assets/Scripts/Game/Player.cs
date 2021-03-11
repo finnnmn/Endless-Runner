@@ -93,18 +93,7 @@ namespace EndlessRunner.Gameplay
         /// </summary>
         [Header("Camera")]
         [SerializeField] GameObject followCamera;
-        /// <summary>
-        /// When true, camera will follow the player on the x axis
-        /// </summary>
-        [SerializeField] bool cameraFollowPlayerLanes;
-        /// <summary>
-        /// When true, camera will follow the player on the y axis
-        /// </summary>
-        [SerializeField] bool cameraFollowPlayerJump;
-        /// <summary>
-        /// Stores the distance between camera and player, used for calculations
-        /// </summary>
-        Vector3 cameraOffset;
+
 
         /// <summary>
         /// array of the x positions for each lane
@@ -151,9 +140,6 @@ namespace EndlessRunner.Gameplay
             transform.position = new Vector3(lanes[currentLane], transform.position.y, transform.position.z);
             currentSpeed = moveSpeed;
 
-            //calculate camera offset
-            cameraOffset = transform.position - followCamera.transform.position;
-
             //start spawning platforms
             platformManager = Game.instance.platformManager;
             platformSize = platformManager.platformSize;
@@ -161,6 +147,8 @@ namespace EndlessRunner.Gameplay
 
             //set mop to loaded
             mopLoading = mopReload;
+
+            followCamera.transform.SetParent(transform);
         }
 
         private void Update()
@@ -217,20 +205,6 @@ namespace EndlessRunner.Gameplay
 
             distance += frameMovement.z * distanceMultiplier;
             hudDisplay.UpdateDistanceText(distance);
-
-            //Get camera position
-            Vector3 cameraPos = followCamera.transform.position;
-
-            //set camera to player x position if toggle is on
-            if (cameraFollowPlayerLanes)
-                cameraPos.x = transform.position.x - cameraOffset.x;
-
-            //set camera to player y position if toggle is on
-            if (cameraFollowPlayerJump)
-                cameraPos.y = transform.position.y - cameraOffset.y;
-
-            //move camera
-            followCamera.transform.position = new Vector3(cameraPos.x, cameraPos.y, cameraPos.z + frameMovement.z);
 
 
         }
@@ -681,8 +655,6 @@ namespace EndlessRunner.Gameplay
             inShipJump = true;
 
             aimPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + (platformSize * 1.75f));
-
-            followCamera.transform.SetParent(transform);
             
 
         }
@@ -704,7 +676,6 @@ namespace EndlessRunner.Gameplay
             {
                 inShipJump = false;
                 RaiseSpeed();
-                followCamera.transform.SetParent(null);
             }
         }
 
